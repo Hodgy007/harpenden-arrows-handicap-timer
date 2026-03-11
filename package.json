@@ -2,14 +2,19 @@
   "name": "harpenden-arrows-handicap-timer",
   "version": "1.0.0",
   "description": "A countdown timer application for Harpenden Arrows with runner management and announcements.",
-  "main": "src/main.ts",
+  "main": "electron/main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:ghpages": "ng build --base-href /harpenden-arrows-handicap-timer/",
+    "deploy:ghpages": "npm run build:ghpages && npx angular-cli-ghpages --dir=dist/harpenden-arrows-handicap-timer",
+    "build:electron": "ng build --base-href ./",
+    "electron:start": "npm run build:electron && electron .",
+    "electron:dist": "npm run build:electron && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder build --win --dir & powershell Compress-Archive -Path release/win-unpacked -DestinationPath release/HarpendenArrowsRaceTimer.zip -Force"
   },
   "private": true,
   "dependencies": {
@@ -28,7 +33,30 @@
     "@angular/cli": "^18.0.0",
     "@angular/compiler-cli": "^18.0.0",
     "@types/node": "^20.0.0",
+    "angular-cli-ghpages": "^3.0.2",
+    "cross-env": "^10.1.0",
+    "electron": "^41.0.0",
+    "electron-builder": "^26.8.1",
     "typescript": "~5.4.0"
+  },
+  "build": {
+    "appId": "com.harpendenarrows.racetimer",
+    "productName": "Harpenden Arrows Race Timer",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "dist/**/*"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "src/favicon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "shortcutName": "Harpenden Arrows Race Timer"
+    }
   },
   "engines": {
     "node": ">=12.0.0"
