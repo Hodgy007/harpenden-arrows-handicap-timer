@@ -12,9 +12,11 @@ import { Subscription } from 'rxjs';
 export class TimerComponent implements OnInit, OnDestroy {
   @ViewChild(RunnerListComponent) runnerList!: RunnerListComponent;
 
-  countdownTime: number = 1800; // 30 minutes in seconds
+  countdownTime: number = 2100; // 35 minutes in seconds
   remainingTime: number = this.countdownTime;
   isRunning: boolean = false;
+  editingStartTime: boolean = false;
+  editingStartTimeValue: string = '';
   runnerNames: string[] = [];
   checkIns: { number: number; time: string; remainingSeconds: number }[] = [];
   private timerSubscription: Subscription | null = null;
@@ -75,6 +77,34 @@ export class TimerComponent implements OnInit, OnDestroy {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  startEditStartTime(): void {
+    if (this.isRunning) return;
+    this.editingStartTime = true;
+    this.editingStartTimeValue = this.formatTime(this.countdownTime);
+    setTimeout(() => {
+      const input = document.querySelector('.start-time-input') as HTMLInputElement;
+      if (input) input.focus();
+    }, 0);
+  }
+
+  saveStartTime(): void {
+    const parts = this.editingStartTimeValue.split(':');
+    if (parts.length === 2) {
+      const minutes = parseInt(parts[0], 10);
+      const seconds = parseInt(parts[1], 10);
+      if (!isNaN(minutes) && !isNaN(seconds) && seconds <= 59 && minutes >= 0) {
+        this.countdownTime = minutes * 60 + seconds;
+        this.remainingTime = this.countdownTime;
+      }
+    }
+    this.editingStartTime = false;
+    this.changeDetectorRef.markForCheck();
+  }
+
+  cancelEditStartTime(): void {
+    this.editingStartTime = false;
   }
 
   recordCheckIn(): void {

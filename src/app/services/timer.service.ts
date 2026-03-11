@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class TimerService {
-  private countdownTime: number = 1800; // 30 minutes in seconds
+  private countdownTime: number = 2100; // default 35 minutes in seconds
   private currentTime: number = this.countdownTime;
   private timerInterval: any;
   private timerSubject: Subject<number> = new Subject<number>();
