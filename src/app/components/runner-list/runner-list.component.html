@@ -1,5 +1,5 @@
-<div style="display: flex; gap: 20px;">
-  <div style="flex: 1;">
+<div class="runner-layout">
+  <div class="runner-main">
     <div *ngIf="checkIns.length > 0" style="margin-bottom: 30px;">
       <h3 style="color: #CC0000; margin-bottom: 10px;">Check-ins</h3>
       <table>
@@ -17,6 +17,7 @@
         </tbody>
       </table>
     </div>
+    <div class="table-scroll">
     <table *ngIf="runners.length > 0">
       <thead>
         <tr>
@@ -56,6 +57,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <p *ngIf="runners.length === 0">No runners added yet.</p>
     <form (ngSubmit)="addRunner()" style="margin-top: 20px;">
       <input type="text" [(ngModel)]="runnerName" name="runnerName" placeholder="Runner Name" required />
@@ -86,7 +88,7 @@
     </div>
   </div>
 
-  <div class="alerts-panel" style="flex: 0 0 250px;">
+  <div class="alerts-panel">
     <h3>Alerts</h3>
     <div *ngFor="let alert of runnerAlerts"
          class="alert-box"

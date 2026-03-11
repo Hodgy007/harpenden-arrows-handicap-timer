@@ -116,3 +116,29 @@ input:focus {
     border-color: #CC0000;
     box-shadow: 0 0 5px rgba(204, 0, 0, 0.3);
 }
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    form {
+        flex-wrap: wrap;
+    }
+
+    form input {
+        flex: 1 1 100%;
+    }
+
+    table th,
+    table td {
+        padding: 8px 6px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    button {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
