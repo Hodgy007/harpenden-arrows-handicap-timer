@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:ghpages": "ng build --base-href /harpenden-arrows-handicap-timer/",
+    "build:ghpages": "ng build --base-href /race-timer/",
     "deploy:ghpages": "npm run build:ghpages && npx angular-cli-ghpages --dir=dist/race-timer",
     "build:electron": "ng build --base-href ./",
     "electron:start": "npm run build:electron && electron .",

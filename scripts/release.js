@@ -12,7 +12,7 @@ const https = require('https');
 
 const TOKEN = process.env.GITHUB_TOKEN || '';
 const OWNER = 'Hodgy007';
-const REPO = 'harpenden-arrows-handicap-timer';
+const REPO = 'race-timer';
 const ZIP_PATH = path.join(__dirname, '../release/HarpendenArrowsRaceTimer.zip');
 const PKG_PATH = path.join(__dirname, '../package.json');
 
