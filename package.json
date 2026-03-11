@@ -1,0 +1,36 @@
+{
+  "name": "harpenden-arrows-handicap-timer",
+  "version": "1.0.0",
+  "description": "A countdown timer application for Harpenden Arrows with runner management and announcements.",
+  "main": "src/main.ts",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.6.0",
+    "zone.js": "^0.14.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular/cli": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "~5.4.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
