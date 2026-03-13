@@ -5,6 +5,7 @@
            type="text" [(ngModel)]="editingStartTimeValue" placeholder="mm:ss"
            (blur)="saveStartTime()" (keydown.enter)="saveStartTime()" (keydown.escape)="cancelEditStartTime()" />
   </div>
+  <div class="timer-display elapsed-display">{{ formatTime(countdownTime - remainingTime) }}</div>
   <div class="button-group">
     <button (click)="startTimer()" [disabled]="isRunning">Start</button>
     <button (click)="stopTimer()">Stop</button>

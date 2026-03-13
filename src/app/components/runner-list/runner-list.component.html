@@ -23,6 +23,7 @@
         <tr>
           <th>Runner Name</th>
           <th>5K Time</th>
+          <th>Gap</th>
           <th>Start in:</th>
           <th>Race Position</th>
           <th>Finish Time</th>
@@ -43,6 +44,7 @@
                    class="cell-edit-input" type="text" [(ngModel)]="editingValue" placeholder="mm:ss"
                    (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
           </td>
+          <td>{{ getTimeDifferential(i) }}</td>
           <td>{{ formatTime(getCountdownToTime(runner.expectedTime)) }}</td>
           <td class="editable-cell" (dblclick)="startCellEdit(i, 'racePosition')">
             <span *ngIf="!(editingCell?.index === i && editingCell?.field === 'racePosition')">{{ runner.racePosition ?? '' }}</span>

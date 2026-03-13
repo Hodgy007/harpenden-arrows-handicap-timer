@@ -132,6 +132,12 @@ export class RunnerListComponent implements OnInit, OnChanges {
     this.editingValue = '';
   }
 
+  getTimeDifferential(index: number): string {
+    if (index === 0) return '-';
+    const diff = Math.abs(this.runners[index - 1].expectedTime - this.runners[index].expectedTime);
+    return '+' + this.formatTime(diff);
+  }
+
   getCountdownToTime(expectedTime: number): number {
     return Math.max(0, this.remainingTime - expectedTime);
   }

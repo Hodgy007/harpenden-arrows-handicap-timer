@@ -24,6 +24,11 @@ h1 {
     letter-spacing: 5px;
 }
 
+.elapsed-display {
+    margin-top: -10px;
+    color: #555;
+}
+
 .button-group {
     display: flex;
     gap: 10px;
@@ -84,6 +89,10 @@ h1 {
         font-size: 56px;
         margin: 15px 0;
         letter-spacing: 2px;
+    }
+
+    .elapsed-display {
+        margin-top: -5px;
     }
 
     .button-group {
