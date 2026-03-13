@@ -132,6 +132,26 @@ export class RunnerListComponent implements OnInit, OnChanges {
     this.editingValue = '';
   }
 
+  getFinishDifferential(runner: StoredRunner): string {
+    if (runner.finishTimeSeconds == null) return '';
+    const diff = runner.finishTimeSeconds - runner.expectedTime;
+    const sign = diff >= 0 ? '+' : '-';
+    return sign + this.formatTime(Math.abs(diff));
+  }
+
+  getCheckInRaceTime(checkIn: { remainingSeconds: number }): string {
+    return this.formatTime(this.countdownTime - checkIn.remainingSeconds);
+  }
+
+  getCheckInDifferential(checkIn: { number: number; remainingSeconds: number }): string {
+    const runner = this.runners.find(r => r.racePosition === checkIn.number);
+    if (!runner) return '-';
+    const raceTime = this.countdownTime - checkIn.remainingSeconds;
+    const diff = raceTime - runner.expectedTime;
+    const sign = diff >= 0 ? '+' : '-';
+    return sign + this.formatTime(Math.abs(diff));
+  }
+
   getTimeDifferential(index: number): string {
     if (index === 0) return '-';
     const diff = Math.abs(this.runners[index - 1].expectedTime - this.runners[index].expectedTime);
@@ -160,7 +180,13 @@ export class RunnerListComponent implements OnInit, OnChanges {
       // Populate finishTime from check-in matching race position
       if (runner.racePosition) {
         const ci = this.checkIns.find(c => c.number === runner.racePosition);
-        runner.finishTime = ci ? this.formatTime(this.countdownTime - ci.remainingSeconds) : undefined;
+        if (ci) {
+          runner.finishTimeSeconds = this.countdownTime - ci.remainingSeconds;
+          runner.finishTime = this.formatTime(runner.finishTimeSeconds);
+        } else {
+          runner.finishTimeSeconds = undefined;
+          runner.finishTime = undefined;
+        }
       }
       // Existing: map finishedTime by bib number
       const ciByNumber = this.checkIns.find(c => c.number === runner.number);
@@ -235,11 +261,41 @@ export class RunnerListComponent implements OnInit, OnChanges {
     this.runners.forEach(runner => {
       runner.racePosition = undefined;
       runner.finishTime = undefined;
+      runner.finishTimeSeconds = undefined;
       runner.alerted = false;
       runner.preAlerted = false;
     });
     this.sortRunners();
     this.storageService.saveRunners(this.runners);
+  }
+
+  exportToCsv(): void {
+    const headers = ['Runner Name', '5K Time', 'Gap', 'Start In', 'Race Position', 'Finish Time', 'Differential'];
+    const rows = this.runners.map((runner, i) => [
+      runner.name,
+      this.formatTime(runner.expectedTime),
+      this.getTimeDifferential(i),
+      this.formatTime(this.getCountdownToTime(runner.expectedTime)),
+      runner.racePosition ?? '',
+      runner.finishTime ?? '',
+      this.getFinishDifferential(runner)
+    ]);
+
+    const csv = [headers, ...rows].map(r => r.map(v => {
+      const s = String(v);
+      return /^[+\-=@]/.test(s) ? `" ${s}"` : `"${s}"`;
+    }).join(',')).join('\n');
+    const now = new Date();
+    const dateStr = now.toISOString().replace('T', '_').replace(/:/g, '-').slice(0, 19);
+    const filename = `race-results-${dateStr}.csv`;
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   clearAllRunners(): void {

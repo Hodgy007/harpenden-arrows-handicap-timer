@@ -7,12 +7,14 @@
           <tr>
             <th>Race Position</th>
             <th>Time</th>
+            <th>Race Time</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let checkIn of checkIns">
             <td>{{ checkIn.number }}</td>
             <td>{{ checkIn.time }}</td>
+            <td>{{ getCheckInRaceTime(checkIn) }}</td>
           </tr>
         </tbody>
       </table>
@@ -27,6 +29,7 @@
           <th>Start in:</th>
           <th>Race Position</th>
           <th>Finish Time</th>
+          <th>Differential</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -53,12 +56,16 @@
                    (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
           </td>
           <td>{{ runner.finishTime ?? '' }}</td>
+          <td>{{ getFinishDifferential(runner) }}</td>
           <td>
             <button (click)="removeRunner(runner)" style="background-color: #CC0000; color: white;">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
+    </div>
+    <div style="margin-top: 10px; text-align: right;" *ngIf="runners.length > 0">
+      <button (click)="exportToCsv()" style="background-color: #1976D2; color: white; font-size: 14px; padding: 10px 20px;">Export to CSV</button>
     </div>
     <p *ngIf="runners.length === 0">No runners added yet.</p>
     <form (ngSubmit)="addRunner()" style="margin-top: 20px;">

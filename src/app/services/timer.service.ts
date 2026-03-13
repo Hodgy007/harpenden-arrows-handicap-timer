@@ -14,9 +14,8 @@ export class TimerService {
 
   startTimer(startTime?: number): Observable<number> {
     this.stopTimer();
-    if (startTime) {
+    if (startTime !== undefined) {
       this.currentTime = startTime;
-      this.countdownTime = startTime;
     }
 
     this.timerInterval = setInterval(() => {

@@ -7,6 +7,7 @@ export interface StoredRunner {
   number?: number;
   racePosition?: number;
   finishTime?: string;
+  finishTimeSeconds?: number;
   finishedTime?: string;
   alerted?: boolean;
   preAlerted?: boolean;
