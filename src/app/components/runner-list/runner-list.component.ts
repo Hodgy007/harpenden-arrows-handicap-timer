@@ -154,8 +154,16 @@ export class RunnerListComponent implements OnInit, OnChanges {
 
   getTimeDifferential(index: number): string {
     if (index === 0) return '-';
-    const diff = Math.abs(this.runners[index - 1].expectedTime - this.runners[index].expectedTime);
-    return '+' + this.formatTime(diff);
+    const prevRunner = this.runners[index - 1];
+    const thisRunner = this.runners[index];
+    const staticDiff = prevRunner.expectedTime - thisRunner.expectedTime;
+
+    if (this.remainingTime <= prevRunner.expectedTime) {
+      const countdown = Math.max(0, this.remainingTime - thisRunner.expectedTime);
+      return '+' + this.formatTime(countdown);
+    }
+
+    return '+' + this.formatTime(staticDiff);
   }
 
   getCountdownToTime(expectedTime: number): number {
