@@ -1,82 +1,148 @@
-/* Timer component styles */
-
-h1 {
-    color: #000000;
-    text-align: center;
-    margin-bottom: 20px;
-}
+/* ── Timer Component ── */
 
 .timer-container {
-    text-align: center;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px;
+  padding: 36px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── Ring + Clock ─── */
+.timer-ring-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  height: 240px;
+  margin-bottom: 32px;
+}
+
+.timer-arc {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.arc-track {
+  fill: none;
+  stroke: var(--surface-2);
+  stroke-width: 6;
+}
+
+.arc-fill {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 552.9;
+  stroke-dashoffset: 552.9;
+  transition: stroke-dashoffset 0.8s linear;
+  filter: drop-shadow(0 0 6px var(--red));
 }
 
 .timer-display {
-    font-size: 72px;
-    font-weight: bold;
-    color: #000;
-    margin: 30px 0;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 5px;
+  font-family: var(--font-mono);
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  transition: text-shadow 0.3s;
+  user-select: none;
 }
 
+/* Pulse glow when running */
+.timer-container.is-running .timer-display {
+  animation: clock-pulse 2s ease-in-out infinite;
+}
 
+.timer-container.is-running .arc-fill {
+  filter: drop-shadow(0 0 10px var(--red));
+}
+
+@keyframes clock-pulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.08); }
+  50%       { text-shadow: 0 0 30px rgba(204,0,0,0.35), 0 0 60px rgba(204,0,0,0.1); }
+}
+
+/* ─── Buttons ─── */
 .button-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 40px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 
 .button-group button {
-    padding: 12px 30px;
-    background-color: #CC0000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
+  min-width: 90px;
+  padding: 11px 24px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  border-radius: 3px;
 }
 
-.button-group button:hover {
-    background-color: #990000;
+.btn-start {
+  background: var(--surface-2);
+  border: 1px solid var(--red);
+  color: var(--red);
+}
+.btn-start:not(:disabled):hover {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 0 18px var(--red-glow);
 }
 
-.button-group button:active {
-    transform: scale(0.98);
+.btn-stop {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.btn-stop:hover {
+  border-color: var(--red);
+  color: var(--text);
+  box-shadow: none;
+  background: var(--surface-2);
 }
 
+.btn-reset {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.btn-reset:hover {
+  border-color: var(--text-dim);
+  color: var(--text);
+  box-shadow: none;
+  background: var(--surface-2);
+}
+
+.btn-checkin {
+  background: #003d1a;
+  border: 1px solid var(--green);
+  color: var(--green);
+}
+.btn-checkin:hover {
+  background: var(--green);
+  color: #000;
+  box-shadow: 0 0 18px var(--green-glow);
+}
 
 @media (max-width: 768px) {
-    .timer-container {
-        padding: 15px 10px;
-        margin: 10px;
-        box-sizing: border-box;
-        width: calc(100vw - 20px);
-    }
+  .timer-container { padding: 24px 12px 8px; }
 
-    .timer-display {
-        font-size: 56px;
-        margin: 15px 0;
-        letter-spacing: 2px;
-    }
+  .timer-ring-wrap { width: 190px; height: 190px; margin-bottom: 24px; }
+  .timer-display { font-size: 40px; }
 
-
-    .button-group {
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 20px;
-    }
-
-    .button-group button {
-        padding: 12px 16px;
-        font-size: 14px;
-        flex: 1 1 calc(50% - 8px);
-    }
+  .button-group { gap: 8px; margin-bottom: 24px; }
+  .button-group button {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 80px;
+    padding: 12px 12px;
+  }
 }

@@ -1,111 +1,128 @@
 <div class="runner-layout">
   <div class="runner-main">
-    <div *ngIf="checkIns.length > 0" style="margin-bottom: 30px;">
-      <h3 style="color: #CC0000; margin-bottom: 10px;">Check-ins</h3>
+
+    <!-- Check-ins -->
+    <div *ngIf="checkIns.length > 0" class="checkins-block" style="margin-bottom: 28px;">
+      <div style="padding: 14px 12px 0;">
+        <div class="section-label">Check-ins</div>
+      </div>
       <table>
         <thead>
           <tr>
-            <th>Race Position</th>
-            <th>Time</th>
+            <th>Position</th>
+            <th>Clock</th>
             <th>Race Time</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let checkIn of checkIns">
-            <td>{{ checkIn.number }}</td>
+            <td><span class="bib">{{ checkIn.number }}</span></td>
             <td>{{ checkIn.time }}</td>
             <td>{{ getCheckInRaceTime(checkIn) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="table-scroll">
-    <table *ngIf="runners.length > 0">
-      <thead>
-        <tr>
-          <th>Runner Name</th>
-          <th>Race Time</th>
-          <th>Gap</th>
-          <th>Start in:</th>
-          <th>Race Position</th>
-          <th>Finish Time</th>
-          <th>Differential</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let runner of runners; let i = index">
-          <td class="editable-cell" (dblclick)="startCellEdit(i, 'name')">
-            <span *ngIf="!(editingCell?.index === i && editingCell?.field === 'name')">{{ runner.name }}</span>
-            <input *ngIf="editingCell?.index === i && editingCell?.field === 'name'"
-                   class="cell-edit-input" type="text" [(ngModel)]="editingValue"
-                   (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
-          </td>
-          <td class="editable-cell" (dblclick)="startCellEdit(i, 'expectedTime')">
-            <span *ngIf="!(editingCell?.index === i && editingCell?.field === 'expectedTime')">{{ formatTime(runner.expectedTime) }}</span>
-            <input *ngIf="editingCell?.index === i && editingCell?.field === 'expectedTime'"
-                   class="cell-edit-input" type="text" [(ngModel)]="editingValue" placeholder="mm:ss"
-                   (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
-          </td>
-          <td>{{ gapValues[i] }}</td>
-          <td>{{ formatTime(getCountdownToTime(runner.expectedTime)) }}</td>
-          <td class="editable-cell" (dblclick)="startCellEdit(i, 'racePosition')">
-            <span *ngIf="!(editingCell?.index === i && editingCell?.field === 'racePosition')">{{ runner.racePosition ?? '' }}</span>
-            <input *ngIf="editingCell?.index === i && editingCell?.field === 'racePosition'"
-                   class="cell-edit-input" type="number" [(ngModel)]="editingValue" placeholder="#"
-                   (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
-          </td>
-          <td>{{ runner.finishTime ?? '' }}</td>
-          <td>{{ getFinishDifferential(runner) }}</td>
-          <td>
-            <button (click)="removeRunner(runner)" style="background-color: #CC0000; color: white;">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <!-- Runners table -->
+    <div class="section-label">Runners</div>
+    <div class="table-scroll" *ngIf="runners.length > 0">
+      <table class="runners-table">
+        <thead>
+          <tr>
+            <th>Runner Name</th>
+            <th>Race Time</th>
+            <th>Gap</th>
+            <th>Start In</th>
+            <th>Position</th>
+            <th>Finish Time</th>
+            <th>Differential</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let runner of runners; let i = index">
+            <td class="editable-cell" (dblclick)="startCellEdit(i, 'name')">
+              <span *ngIf="!(editingCell?.index === i && editingCell?.field === 'name')">{{ runner.name }}</span>
+              <input *ngIf="editingCell?.index === i && editingCell?.field === 'name'"
+                     class="cell-edit-input" type="text" [(ngModel)]="editingValue"
+                     (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
+            </td>
+            <td class="editable-cell" (dblclick)="startCellEdit(i, 'expectedTime')">
+              <span *ngIf="!(editingCell?.index === i && editingCell?.field === 'expectedTime')">{{ formatTime(runner.expectedTime) }}</span>
+              <input *ngIf="editingCell?.index === i && editingCell?.field === 'expectedTime'"
+                     class="cell-edit-input" type="text" [(ngModel)]="editingValue" placeholder="mm:ss"
+                     (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
+            </td>
+            <td>{{ gapValues[i] }}</td>
+            <td>{{ formatTime(getCountdownToTime(runner.expectedTime)) }}</td>
+            <td class="editable-cell" (dblclick)="startCellEdit(i, 'racePosition')">
+              <ng-container *ngIf="!(editingCell?.index === i && editingCell?.field === 'racePosition')">
+                <span class="pos-badge" [class.top-3]="runner.racePosition && runner.racePosition <= 3">
+                  {{ runner.racePosition ?? '—' }}
+                </span>
+              </ng-container>
+              <input *ngIf="editingCell?.index === i && editingCell?.field === 'racePosition'"
+                     class="cell-edit-input" type="number" [(ngModel)]="editingValue" placeholder="#"
+                     (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
+            </td>
+            <td>{{ runner.finishTime ?? '—' }}</td>
+            <td>{{ getFinishDifferential(runner) }}</td>
+            <td>
+              <button class="btn-delete" (click)="removeRunner(runner)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div style="margin-top: 10px; text-align: right; display: flex; gap: 10px; justify-content: flex-end;" *ngIf="runners.length > 0">
-      <button (click)="updateTimesFromFinish()" style="background-color: #9C27B0; color: white; font-size: 14px; padding: 10px 20px;">Update Finish Times to Race Times</button>
-      <button (click)="exportToCsv()" style="background-color: #1976D2; color: white; font-size: 14px; padding: 10px 20px;">Export to CSV</button>
+
+    <div class="empty-state" *ngIf="runners.length === 0">No runners added yet</div>
+
+    <!-- Utility bar -->
+    <div class="utility-bar" *ngIf="runners.length > 0">
+      <button class="btn-utility btn-update-times" (click)="updateTimesFromFinish()">Update Finish Times</button>
+      <button class="btn-utility btn-export" (click)="exportToCsv()">Export CSV</button>
+      <button class="btn-utility btn-clear" (click)="clearAllRunners()">Clear All</button>
     </div>
-    <p *ngIf="runners.length === 0">No runners added yet.</p>
-    <form (ngSubmit)="addRunner()" style="margin-top: 20px;">
+
+    <!-- Add runner -->
+    <form class="add-runner-form" (ngSubmit)="addRunner()" style="margin-top: 24px;">
       <input type="text" [(ngModel)]="runnerName" name="runnerName" placeholder="Runner Name" required />
       <input type="text" [(ngModel)]="expectedTime" name="expectedTime" placeholder="Race Time mm:ss" required />
       <button type="submit">Add Runner</button>
     </form>
-    <div style="margin-top: 10px;">
-      <button type="button" (click)="showBulkImport = !showBulkImport" style="background-color: #666; color: white; font-size: 12px; padding: 6px 10px;">
+
+    <!-- Bulk import -->
+    <div class="bulk-toggle">
+      <button type="button" class="btn-bulk-toggle" (click)="showBulkImport = !showBulkImport">
         {{ showBulkImport ? 'Hide Bulk Import' : 'Bulk Import' }}
       </button>
     </div>
-    <div *ngIf="showBulkImport" style="margin-top: 15px; padding: 15px; background-color: #f5f5f5; border-radius: 4px;">
-      <p style="margin: 0 0 10px 0; color: #666; font-size: 12px;">
-        Paste runner names and race times (one per line):<br/>
-        Format: Name Race Time (mm:ss)<br/>
-        Example: John Smith 25:30
+
+    <div *ngIf="showBulkImport" class="bulk-import-panel">
+      <p class="bulk-hint">
+        Paste runner names and race times, one per line.<br/>
+        Format: <strong>Name Time</strong> &nbsp;e.g. <code>John Smith 25:30</code>
       </p>
       <textarea [(ngModel)]="bulkRunnerData" name="bulkRunnerData"
-                placeholder="John Smith 25:30&#10;Jane Doe 22:15&#10;Bob Jones 28:45"
-                style="width: 100%; height: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace; font-size: 12px; resize: vertical;"></textarea>
-      <div style="margin-top: 10px; display: flex; gap: 10px;">
-        <button type="button" (click)="importBulkRunners()" style="background-color: #4CAF50; color: white; padding: 8px 15px;">Import</button>
-        <button type="button" (click)="showBulkImport = false" style="background-color: #999; color: white; padding: 8px 15px;">Cancel</button>
+                placeholder="John Smith 25:30&#10;Jane Doe 22:15&#10;Bob Jones 28:45"></textarea>
+      <div class="bulk-actions">
+        <button type="button" class="btn-import" (click)="importBulkRunners()">Import</button>
+        <button type="button" class="btn-cancel" (click)="showBulkImport = false">Cancel</button>
       </div>
     </div>
-    <div style="margin-top: 20px;">
-      <button (click)="clearAllRunners()" style="background-color: #CC0000; color: white; font-size: 14px; padding: 10px 20px;" *ngIf="runners.length > 0">Clear All Runners</button>
-    </div>
+
   </div>
 
+  <!-- Alerts panel -->
   <div class="alerts-panel">
-    <h3>Alerts</h3>
+    <div class="alerts-panel-header">Live Alerts</div>
     <div *ngFor="let alert of runnerAlerts"
          class="alert-box"
          [ngClass]="alert.isGo ? 'green' : 'amber'">
-      <div>{{ alert.runnerName }}</div>
-      <div style="font-size: 24px; margin-top: 10px;">{{ alert.isGo ? 'GO!' : alert.countdown }}</div>
+      <div class="alert-name">{{ alert.runnerName }}</div>
+      <div class="alert-signal">{{ alert.isGo ? 'GO!' : alert.countdown }}</div>
     </div>
-    <p *ngIf="runnerAlerts.length === 0" style="color: #666; text-align: center;">Waiting for runners...</p>
+    <div *ngIf="runnerAlerts.length === 0" class="alerts-waiting">Waiting for runners&hellip;</div>
   </div>
 </div>

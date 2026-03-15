@@ -71,6 +71,12 @@ export class TimerComponent implements OnInit, OnDestroy {
     // Additional logic for announcing can be added here
   }
 
+  get arcOffset(): number {
+    const circumference = 2 * Math.PI * 88; // r=88
+    const elapsed = (this.countdownTime - this.remainingTime) / this.countdownTime;
+    return circumference * (1 - elapsed);
+  }
+
   formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;

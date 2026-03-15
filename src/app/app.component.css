@@ -1,42 +1,117 @@
-/* App component styles */
+/* ── App Shell ── */
 
 .site-header {
-    background-color: #CC0000;
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  height: 64px;
+  background: #000;
+  position: relative;
+  border-bottom: 2px solid var(--red);
+  overflow: hidden;
+}
+
+/* Diagonal red sweep behind header */
+.site-header::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 320px;
+  height: 100%;
+  background: linear-gradient(105deg, transparent 40%, rgba(204,0,0,0.12) 40%, rgba(204,0,0,0.06) 100%);
+  pointer-events: none;
 }
 
 .site-logo {
-    height: 60px;
-    display: block;
-    flex-shrink: 0;
+  height: 46px;
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(204,0,0,0.5));
 }
 
 .site-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: Arial, sans-serif;
-    white-space: nowrap;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.site-title span {
+  color: var(--red);
 }
 
 .site-header-spacer {
-    flex: 1;
+  flex: 1;
+}
+
+/* Light mode: red header */
+:host-context(body.light-mode) .site-header {
+  background: var(--red);
+  border-bottom-color: #990000;
+}
+
+:host-context(body.light-mode) .site-header::before {
+  background: linear-gradient(105deg, transparent 40%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0.04) 100%);
+}
+
+:host-context(body.light-mode) .site-logo {
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(0,0,0,0.3));
+}
+
+:host-context(body.light-mode) .site-title {
+  color: #fff;
+}
+
+:host-context(body.light-mode) .site-title span {
+  color: rgba(255,255,255,0.75);
+}
+
+:host-context(body.light-mode) .theme-toggle {
+  border-color: rgba(255,255,255,0.4);
+  color: #fff;
+}
+
+:host-context(body.light-mode) .theme-toggle:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* Toggle button */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: var(--text-muted);
+  border-radius: 4px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  letter-spacing: 0;
+  text-transform: none;
+  font-family: inherit;
+  box-shadow: none;
+}
+
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--text-muted);
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
-    .site-title {
-        font-size: 16px;
-    }
-
-    .site-logo {
-        height: 40px;
-    }
+  .site-header { height: 52px; padding: 0 16px; }
+  .site-logo { height: 34px; }
+  .site-title { font-size: 14px; letter-spacing: 0.14em; }
 }

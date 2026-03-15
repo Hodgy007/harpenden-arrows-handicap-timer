@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Harpenden Arrows Handicap Timer';
+  lightMode = false;
+
+  toggleLightMode(): void {
+    this.lightMode = !this.lightMode;
+    document.body.classList.toggle('light-mode', this.lightMode);
+  }
 }

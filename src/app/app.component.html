@@ -1,8 +1,12 @@
 <div>
   <header class="site-header">
     <img src="assets/logosmall.gif" alt="Harpenden Arrows" class="site-logo" />
-    <span class="site-title">Race Timer</span>
+    <span class="site-title">Harpenden <span>Arrows</span> Race Timer</span>
     <div class="site-header-spacer"></div>
+    <button class="theme-toggle" (click)="toggleLightMode()" [attr.aria-label]="lightMode ? 'Switch to dark mode' : 'Switch to light mode'">
+      <span *ngIf="!lightMode">☀</span>
+      <span *ngIf="lightMode">☾</span>
+    </button>
   </header>
   <app-timer></app-timer>
 </div>
