@@ -1,9 +1,9 @@
-<div class="timer-container" [class.is-running]="isRunning" [style.--elapsed]="(countdownTime - remainingTime) / countdownTime">
+<div class="timer-container" [class.is-running]="isRunning">
   <div class="timer-ring-wrap">
     <svg class="timer-arc" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <circle class="arc-track" cx="100" cy="100" r="88"/>
       <circle class="arc-fill" cx="100" cy="100" r="88"
-        [style.stroke-dashoffset]="arcOffset"/>
+        [attr.stroke-dashoffset]="arcOffset"/>
     </svg>
     <div class="timer-display">{{ formatTime(countdownTime - remainingTime) }}</div>
   </div>
