@@ -424,7 +424,7 @@
   }
 
   .runners-table .col-actions {
-    display: none;
+    display: none !important;
   }
   .runner-layout {
     flex-direction: column-reverse;
