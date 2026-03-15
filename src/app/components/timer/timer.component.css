@@ -7,6 +7,11 @@
   align-items: center;
 }
 
+app-runner-list {
+  width: 100%;
+  align-self: stretch;
+}
+
 /* ─── Ring + Clock ─── */
 .timer-ring-wrap {
   position: relative;

@@ -7,6 +7,8 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 4px;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .runner-main {
