@@ -162,6 +162,6 @@ body.light-mode {
 ::-webkit-scrollbar-thumb:hover { background: var(--red); }
 
 @media (max-width: 768px) {
-  body { font-size: 14px; overflow-x: hidden; }
+  body { font-size: 14px; }
   button { padding: 10px 16px; }
 }

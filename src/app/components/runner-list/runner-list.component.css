@@ -390,4 +390,21 @@
   }
 
   .add-runner-form input { min-width: 120px; }
+
+  /* Hide least-critical columns to fit on small screens */
+  .runners-table .col-gap,
+  .runners-table .col-differential {
+    display: none;
+  }
+
+  /* Tighter cells */
+  .runners-table td,
+  .runners-table th {
+    padding: 8px 8px;
+    font-size: 13px;
+  }
+
+  .runners-table {
+    min-width: unset;
+  }
 }

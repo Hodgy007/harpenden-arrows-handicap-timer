@@ -32,11 +32,11 @@
           <tr>
             <th>Runner Name</th>
             <th>Race Time</th>
-            <th>Gap</th>
+            <th class="col-gap">Gap</th>
             <th>Start In</th>
             <th>Position</th>
             <th>Finish Time</th>
-            <th>Differential</th>
+            <th class="col-differential">Differential</th>
             <th></th>
           </tr>
         </thead>
@@ -54,7 +54,7 @@
                      class="cell-edit-input" type="text" [(ngModel)]="editingValue" placeholder="mm:ss"
                      (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
             </td>
-            <td>{{ gapValues[i] }}</td>
+            <td class="col-gap">{{ gapValues[i] }}</td>
             <td>{{ formatTime(getCountdownToTime(runner.expectedTime)) }}</td>
             <td class="editable-cell" (dblclick)="startCellEdit(i, 'racePosition')">
               <ng-container *ngIf="!(editingCell?.index === i && editingCell?.field === 'racePosition')">
@@ -67,7 +67,7 @@
                      (blur)="saveCellEdit()" (keydown.enter)="saveCellEdit()" (keydown.escape)="cancelCellEdit()" />
             </td>
             <td>{{ runner.finishTime ?? '—' }}</td>
-            <td>{{ getFinishDifferential(runner) }}</td>
+            <td class="col-differential">{{ getFinishDifferential(runner) }}</td>
             <td>
               <button class="btn-delete" (click)="removeRunner(runner)">Delete</button>
             </td>
