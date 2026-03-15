@@ -26,6 +26,9 @@ jobs:
       - name: Build
         run: npm run build:ghpages
 
+      - name: Copy v2 standalone
+        run: cp race-timer-v2.html dist/race-timer/race-timer-v2.html
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
