@@ -1,16 +1,10 @@
 <div class="timer-container">
-<div class="timer-display" (dblclick)="startEditStartTime()" [title]="isRunning ? '' : 'Double-click to change start time'">
-    <span *ngIf="!editingStartTime">{{ formatTime(remainingTime) }}</span>
-    <input *ngIf="editingStartTime" class="start-time-input"
-           type="text" [(ngModel)]="editingStartTimeValue" placeholder="mm:ss"
-           (blur)="saveStartTime()" (keydown.enter)="saveStartTime()" (keydown.escape)="cancelEditStartTime()" />
-  </div>
-  <div class="timer-display elapsed-display">{{ formatTime(countdownTime - remainingTime) }}</div>
+  <div class="timer-display">{{ formatTime(countdownTime - remainingTime) }}</div>
   <div class="button-group">
     <button (click)="startTimer()" [disabled]="isRunning">Start</button>
     <button (click)="stopTimer()">Stop</button>
     <button (click)="resetTimer()">Reset</button>
     <button (click)="recordCheckIn()" style="background-color: #4CAF50;">Check-in</button>
   </div>
-  <app-runner-list [remainingTime]="remainingTime" [countdownTime]="countdownTime" [checkIns]="checkIns"></app-runner-list>
+  <app-runner-list [remainingTime]="remainingTime" [countdownTime]="countdownTime" [checkIns]="checkIns" (maxExpectedTimeChange)="onMaxExpectedTimeChange($event)"></app-runner-list>
 </div>

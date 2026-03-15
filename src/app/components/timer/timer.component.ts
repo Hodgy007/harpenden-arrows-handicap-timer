@@ -15,8 +15,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   countdownTime: number = 2100; // 35 minutes in seconds
   remainingTime: number = this.countdownTime;
   isRunning: boolean = false;
-  editingStartTime: boolean = false;
-  editingStartTimeValue: string = '';
   runnerNames: string[] = [];
   checkIns: { number: number; time: string; remainingSeconds: number }[] = [];
   private timerSubscription: Subscription | null = null;
@@ -29,7 +27,7 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   startTimer(): void {
     this.isRunning = true;
-    this.timerSubscription = this.timerService.startTimer(this.countdownTime).subscribe((time: number) => {
+    this.timerSubscription = this.timerService.startTimer(this.remainingTime).subscribe((time: number) => {
       this.remainingTime = time;
       if (time === 0) this.isRunning = false;
       this.checkRunnerTimes();
@@ -79,32 +77,12 @@ export class TimerComponent implements OnInit, OnDestroy {
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
 
-  startEditStartTime(): void {
-    if (this.isRunning) return;
-    this.editingStartTime = true;
-    this.editingStartTimeValue = this.formatTime(this.countdownTime);
-    setTimeout(() => {
-      const input = document.querySelector('.start-time-input') as HTMLInputElement;
-      if (input) input.focus();
-    }, 0);
-  }
-
-  saveStartTime(): void {
-    const parts = this.editingStartTimeValue.split(':');
-    if (parts.length === 2) {
-      const minutes = parseInt(parts[0], 10);
-      const seconds = parseInt(parts[1], 10);
-      if (!isNaN(minutes) && !isNaN(seconds) && seconds <= 59 && minutes >= 0) {
-        this.countdownTime = minutes * 60 + seconds;
-        this.remainingTime = this.countdownTime;
-      }
+  onMaxExpectedTimeChange(maxTime: number): void {
+    if (maxTime > 0 && !this.isRunning && this.remainingTime === this.countdownTime) {
+      this.countdownTime = maxTime;
+      this.remainingTime = maxTime;
+      this.changeDetectorRef.markForCheck();
     }
-    this.editingStartTime = false;
-    this.changeDetectorRef.markForCheck();
-  }
-
-  cancelEditStartTime(): void {
-    this.editingStartTime = false;
   }
 
   recordCheckIn(): void {

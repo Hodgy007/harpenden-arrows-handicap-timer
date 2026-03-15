@@ -24,7 +24,7 @@
       <thead>
         <tr>
           <th>Runner Name</th>
-          <th>5K Time</th>
+          <th>Race Time</th>
           <th>Gap</th>
           <th>Start in:</th>
           <th>Race Position</th>
@@ -64,13 +64,14 @@
       </tbody>
     </table>
     </div>
-    <div style="margin-top: 10px; text-align: right;" *ngIf="runners.length > 0">
+    <div style="margin-top: 10px; text-align: right; display: flex; gap: 10px; justify-content: flex-end;" *ngIf="runners.length > 0">
+      <button (click)="updateTimesFromFinish()" style="background-color: #9C27B0; color: white; font-size: 14px; padding: 10px 20px;">Update Finish Times to Race Times</button>
       <button (click)="exportToCsv()" style="background-color: #1976D2; color: white; font-size: 14px; padding: 10px 20px;">Export to CSV</button>
     </div>
     <p *ngIf="runners.length === 0">No runners added yet.</p>
     <form (ngSubmit)="addRunner()" style="margin-top: 20px;">
       <input type="text" [(ngModel)]="runnerName" name="runnerName" placeholder="Runner Name" required />
-      <input type="text" [(ngModel)]="expectedTime" name="expectedTime" placeholder="5km mm:ss" required />
+      <input type="text" [(ngModel)]="expectedTime" name="expectedTime" placeholder="Race Time mm:ss" required />
       <button type="submit">Add Runner</button>
     </form>
     <div style="margin-top: 10px;">
@@ -80,8 +81,8 @@
     </div>
     <div *ngIf="showBulkImport" style="margin-top: 15px; padding: 15px; background-color: #f5f5f5; border-radius: 4px;">
       <p style="margin: 0 0 10px 0; color: #666; font-size: 12px;">
-        Paste runner names and 5K times (one per line):<br/>
-        Format: Name 5K Time (mm:ss)<br/>
+        Paste runner names and race times (one per line):<br/>
+        Format: Name Race Time (mm:ss)<br/>
         Example: John Smith 25:30
       </p>
       <textarea [(ngModel)]="bulkRunnerData" name="bulkRunnerData"

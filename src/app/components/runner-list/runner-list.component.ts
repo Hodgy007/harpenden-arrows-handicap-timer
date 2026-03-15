@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { RunnerStorageService, StoredRunner } from '../../services/runner-storage.service';
 
 @Component({
@@ -10,6 +10,7 @@ export class RunnerListComponent implements OnInit, OnChanges {
   @Input() remainingTime: number = 0;
   @Input() countdownTime: number = 1800;
   @Input() checkIns: { number: number; time: string; remainingSeconds: number }[] = [];
+  @Output() maxExpectedTimeChange = new EventEmitter<number>();
 
   runners: StoredRunner[] = [];
   runnerName: string = '';
@@ -70,6 +71,8 @@ export class RunnerListComponent implements OnInit, OnChanges {
       if (aPos !== bPos) return aPos - bPos;
       return b.expectedTime - a.expectedTime;
     });
+    const max = this.runners.length > 0 ? Math.max(...this.runners.map(r => r.expectedTime)) : 0;
+    this.maxExpectedTimeChange.emit(max);
     this.computeGapValues();
   }
 
@@ -280,8 +283,23 @@ export class RunnerListComponent implements OnInit, OnChanges {
     this.storageService.saveRunners(this.runners);
   }
 
+  updateTimesFromFinish(): void {
+    let updated = 0;
+    this.runners.forEach(runner => {
+      if (runner.finishTimeSeconds != null) {
+        runner.expectedTime = runner.finishTimeSeconds;
+        runner.actualTime = this.countdownTime - runner.expectedTime;
+        updated++;
+      }
+    });
+    if (updated > 0) {
+      this.sortRunners();
+      this.storageService.saveRunners(this.runners);
+    }
+  }
+
   exportToCsv(): void {
-    const headers = ['Runner Name', '5K Time', 'Gap', 'Start In', 'Race Position', 'Finish Time', 'Differential'];
+    const headers = ['Runner Name', 'Race Time', 'Gap', 'Start In', 'Race Position', 'Finish Time', 'Differential'];
     const rows = this.runners.map((runner, i) => [
       runner.name,
       this.formatTime(runner.expectedTime),

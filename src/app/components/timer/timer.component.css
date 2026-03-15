@@ -24,10 +24,6 @@ h1 {
     letter-spacing: 5px;
 }
 
-.elapsed-display {
-    margin-top: -10px;
-    color: #555;
-}
 
 .button-group {
     display: flex;
@@ -56,26 +52,6 @@ h1 {
     transform: scale(0.98);
 }
 
-.start-time-input {
-    font-size: 72px;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 5px;
-    text-align: center;
-    width: 280px;
-    border: 2px dashed #CC0000;
-    border-radius: 4px;
-    background: transparent;
-    color: #000;
-}
-
-@media (max-width: 768px) {
-    .start-time-input {
-        font-size: 56px;
-        width: 220px;
-        letter-spacing: 2px;
-    }
-}
 
 @media (max-width: 768px) {
     .timer-container {
@@ -91,9 +67,6 @@ h1 {
         letter-spacing: 2px;
     }
 
-    .elapsed-display {
-        margin-top: -5px;
-    }
 
     .button-group {
         flex-wrap: wrap;
