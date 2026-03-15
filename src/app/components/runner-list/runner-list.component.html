@@ -37,7 +37,7 @@
             <th>Position</th>
             <th>Finish Time</th>
             <th class="col-differential">Differential</th>
-            <th></th>
+            <th class="col-actions"></th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +68,7 @@
             </td>
             <td>{{ runner.finishTime ?? '—' }}</td>
             <td class="col-differential">{{ getFinishDifferential(runner) }}</td>
-            <td>
+            <td class="col-actions">
               <button class="btn-delete" (click)="removeRunner(runner)">Delete</button>
             </td>
           </tr>

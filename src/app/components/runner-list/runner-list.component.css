@@ -422,6 +422,10 @@
   .runners-table .col-differential {
     display: table-cell;
   }
+
+  .runners-table .col-actions {
+    display: none;
+  }
   .runner-layout {
     flex-direction: column-reverse;
   }
