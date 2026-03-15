@@ -9,7 +9,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true
     },
-    title: 'Harpenden Arrows Race Timer'
+    title: 'Race Timer'
   });
 
   win.loadFile(path.join(__dirname, '../dist/harpenden-arrows-handicap-timer/index.html'));

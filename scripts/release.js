@@ -13,7 +13,7 @@ const https = require('https');
 const TOKEN = process.env.GITHUB_TOKEN || '';
 const OWNER = 'Hodgy007';
 const REPO = 'race-timer';
-const ZIP_PATH = path.join(__dirname, '../release/HarpendenArrowsRaceTimer.zip');
+const ZIP_PATH = path.join(__dirname, '../release/RaceTimer.zip');
 const PKG_PATH = path.join(__dirname, '../package.json');
 
 function run(cmd) {
@@ -105,7 +105,7 @@ async function main() {
   const release = await apiRequest('POST', `/repos/${OWNER}/${REPO}/releases`, {
     tag_name: tag,
     name: tag,
-    body: `Harpenden Arrows Race Timer ${tag} - Windows desktop app`
+    body: `Race Timer ${tag} - Windows desktop app`
   });
 
   if (release.errors) {
