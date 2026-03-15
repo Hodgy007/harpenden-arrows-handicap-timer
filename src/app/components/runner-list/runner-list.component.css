@@ -416,8 +416,12 @@
   }
 }
 
-/* landscape phone — alerts above table, table full width */
+/* landscape phone — alerts above table, table full width, all columns shown */
 @media (orientation: landscape) and (max-height: 500px) {
+  .runners-table .col-gap,
+  .runners-table .col-differential {
+    display: table-cell;
+  }
   .runner-layout {
     flex-direction: column-reverse;
   }
